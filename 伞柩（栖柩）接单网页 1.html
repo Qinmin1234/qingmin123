@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伞柩（栖柩）·摄影 摄影主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            padding-bottom: 80px;
+            color: #2c3e50;
+            position: relative;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(255, 240, 245, 0.7), transparent 35%),
+                radial-gradient(circle at 85% 10%, rgba(220, 235, 255, 0.7), transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(245, 230, 255, 0.6), transparent 45%),
+                linear-gradient(160deg, #f7e4ef 0%, #e8f1fb 45%, #f2eaf8 100%);
+            background-attachment: fixed;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.4), transparent 28%),
+                radial-gradient(circle at 80% 60%, rgba(180, 210, 255, 0.25), transparent 32%),
+                radial-gradient(circle at 50% 90%, rgba(255, 225, 240, 0.3), transparent 30%);
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background-color: rgba(255,255,255,0.55);
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+        }
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap:10px;
+        }
+        .avatar-icon {
+            width:40px;
+            height:40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d9ecff, #f7e1f1);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            overflow:hidden;
+            box-shadow: 0 6px 18px rgba(160, 190, 230, 0.35);
+        }
+        .avatar-img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
+        .header-title {
+            font-size:18px;
+            font-weight:600;
+            color:#2a4365;
+        }
+        .menu-btn {
+            width:32px;
+            height:32px;
+            border:none;
+            background:transparent;
+            font-size:22px;
+            cursor:pointer;
+        }
+        .side-drawer{
+            position:fixed;
+            top:0;
+            right:-260px;
+            width:260px;
+            height:100vh;
+            background:rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px);
+            z-index:200;
+            transition:right 0.3s ease;
+            padding:60px 24px 24px;
+        }
+        .side-drawer.open{
+            right:0;
+        }
+        .drawer-mask{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.35);
+            z-index:199;
+            display:none;
+        }
+        .drawer-mask.open{
+            display:block;
+        }
+        .drawer-item{
+            padding:14px 0;
+            font-size:16px;
+            cursor:pointer;
+            border-bottom:1px solid rgba(0,0,0,0.08);
+        }
+        .hero-section {
+            padding:40px 20px;
+            text-align:center;
+        }
+        .main-title {
+            font-size:36px;
+            font-weight:bold;
+            margin-bottom:12px;
+            background: linear-gradient(135deg, #5b7cfa, #c77dff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .sub-title {
+            font-size:16px;
+            color:#4a5568;
+            margin-bottom:28px;
+        }
+        .btn-group {
+            display:flex;
+            gap:12px;
+            justify-content:center;
+            flex-wrap:wrap;
+        }
+        .btn {
+            padding:12px 24px;
+            border-radius:999px;
+            border:none;
+            font-size:15px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #a7c7ff, #d7a7ff);
+            color:#fff;
+            box-shadow: 0 10px 24px rgba(140, 170, 255, 0.45);
+        }
+        .btn-default {
+            background:rgba(255,255,255,0.75);
+            color:#2a4365;
+            box-shadow: 0 8px 20px rgba(170, 200, 240, 0.25);
+        }
+        .btn:hover{
+            transform: translateY(-2px);
+            opacity:0.92;
+        }
+        .main-banner-wrap {
+            margin:0 20px 28px;
+        }
+        .main-banner {
+            width:100%;
+            border-radius:24px;
+            overflow:hidden;
+            background:#e8f1fb;
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 20px 45px rgba(130, 170, 220, 0.35);
+        }
+        .main-banner img {
+            width:100%;
+            height:auto;
+            object-fit:contain;
+            display:block;
+        }
+        .info-card {
+            margin:0 20px 24px;
+            padding:24px;
+            background:rgba(255,255,255,0.6);
+            border-radius:24px;
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.55);
+            box-shadow: 0 16px 35px rgba(160, 190, 230, 0.25);
+        }
+        .info-text {
+            line-height:1.7;
+            font-size:15px;
+            color:#3a4a5f;
+        }
+        .work-section {
+            margin:0 20px;
+        }
+        .work-title {
+            font-size:28px;
+            text-align:center;
+            margin-bottom:12px;
+            color:#2a4365;
+        }
+        .work-desc {
+            text-align:center;
+            font-size:14px;
+            color:#4a5568;
+            margin-bottom:16px;
+        }
+        .tab-bar {
+            display:flex;
+            gap:8px;
+            margin-bottom:20px;
+        }
+        .tab-item {
+            flex:1;
+            padding:14px;
+            text-align:center;
+            border-radius:16px;
+            background:rgba(255,255,255,0.55);
+            cursor:pointer;
+            font-size:15px;
+            transition:0.3s;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .tab-item.active {
+            background: linear-gradient(135deg, #cfe2ff, #ead6ff);
+            color:#2a4365;
+            box-shadow: 0 10px 22px rgba(150, 180, 240, 0.35);
+        }
+        .work-grid {
+            display:grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
+            gap:14px;
+        }
+        .work-item {
+            aspect-ratio: 1/1;
+            border-radius:16px;
+            overflow:hidden;
+            background:#f0f6fa;
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 12px 26px rgba(140, 170, 220, 0.28);
+            cursor:pointer;
+        }
+        .work-item img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
+        .image-lightbox{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.85);
+            z-index:300;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        }
+        .image-lightbox.open{
+            display:flex;
+        }
+        .lightbox-img{
+            max-width:100%;
+            max-height:90vh;
+            border-radius:12px;
+        }
+        .lightbox-close{
+            position:absolute;
+            top:16px;
+            right:20px;
+            color:#fff;
+            font-size:32px;
+            cursor:pointer;
+        }
+        .bottom-nav {
+            position:fixed;
+            bottom:0;
+            left:0;
+            right:0;
+            display:flex;
+            justify-content:space-around;
+            padding:10px 0;
+            background:rgba(255,255,255,0.65);
+            backdrop-filter:blur(14px);
+            border-top: 1px solid rgba(255,255,255,0.45);
+        }
+        .nav-item {
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            font-size:12px;
+            gap:4px;
+            cursor:pointer;
+            color:#3a4a5f;
+        }
+        .nav-icon {
+            font-size:20px;
+        }
+        #works, #price, #contact{
+            scroll-margin-top:80px;
+        }
+        .block-card {
+            margin:40px 20px;
+            padding:24px;
+            background:rgba(255,255,255,0.6);
+            border-radius:24px;
+            backdrop-filter:blur(14px);
+            border: 1px solid rgba(255,255,255,0.55);
+            box-shadow: 0 16px 35px rgba(160, 190, 230, 0.25);
+        }
+        .block-card h3 {
+            margin-bottom:12px;
+            color:#2a4365;
+        }
+        .block-card p{
+            line-height:1.7;
+            font-size:15px;
+            color:#3a4a5f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-wrap">
+            <div class="avatar-icon">
+                <img src="清云 (7).jpg" alt="伞棺（栖棺）" class="avatar-img">
+            </div>
+            <div class="header-title">伞柩（栖柩）摄影</div>
+        </div>
+        <button class="menu-btn">☰</button>
+    </header>
+
+    <div class="drawer-mask"></div>
+    <div class="side-drawer">
+        <div class="drawer-item" onclick="closeDrawer();document.getElementById('works').scrollIntoView({behavior:'smooth'})">📷 作品展示</div>
+        <div class="drawer-item" onclick="closeDrawer();document.getElementById('price').scrollIntoView({behavior:'smooth'})">💰 拍摄价格</div>
+        <div class="drawer-item" onclick="closeDrawer();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">💬 联系我</div>
+        <div class="drawer-item" onclick="closeDrawer();window.scrollTo({top:0,behavior:'smooth'})">🔝 返回顶部</div>
+    </div>
+
+    <div class="image-lightbox">
+        <div class="lightbox-close">×</div>
+        <img class="lightbox-img" src="" alt="大图预览">
+    </div>
+
+    <section class="hero-section">
+        <h1 class="main-title">伞柩（栖柩）·摄影</h1>
+        <p class="sub-title">定格瞬间，留存独属于你的光影故事！</p>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="document.getElementById('works').scrollIntoView({behavior:'smooth'})">查看作品</button>
+            <button class="btn btn-default" onclick="document.getElementById('price').scrollIntoView({behavior:'smooth'})">拍摄价格</button>
+        </div>
+    </section>
+
+    <div class="main-banner-wrap">
+        <div class="main-banner">
+            <img src="例图/Canon(16).jpg" alt="主视觉">
+        </div>
+    </div>
+    <div class="info-card">
+        <p class="info-text">
+            正片摄影 · 场景外景 / 室内 / 后期精修（可以的话摄影可以免费尝试P图）。<br>
+            支持风格定制与细节沟通，欢迎带上你的想法预约拍摄！
+        </p>
+    </div>
+
+    <section class="work-section" id="works">
+        <h2 class="work-title">作品展示</h2>
+        <p class="work-desc">点击选项，切换查看不同摄影分类；点击图片放大预览</p>
+        <div class="tab-bar">
+            <div class="tab-item active" data-tab="tab1">正片摄影</div>
+            <div class="tab-item" data-tab="tab2">外景</div>
+            <div class="tab-item" data-tab="tab3">场内</div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-panel" id="tab1">
+                <div class="work-grid">
+                    <div class="work-item"><img src="Canon(3).jpg" alt="摄影作品1"></div>
+                    <div class="work-item"><img src="Canon(15).jpg" alt="摄影作品2"></div>
+                    <div class="work-item"><img src="Canon(37).jpg" alt="摄影作品3"></div>
+                    <div class="work-item"><img src="Canon(38).jpg" alt="摄影作品4"></div>
+                    <div class="work-item"><img src="Canon(24).jpg" alt="摄影作品5"></div>
+                    <div class="work-item"><img src="Canon(29).jpg" alt="摄影作品6"></div>
+                    <div class="work-item"><img src="Canon(52).jpg" alt="摄影作品7"></div>
+                    <div class="work-item"><img src="Canon(65).jpg" alt="摄影作品8"></div>
+                </div>
+            </div>
+            <div class="tab-panel" id="tab2" style="display:none">
+                <div class="work-grid">
+                    <div class="work-item"><img src="Canon(38).jpg" alt="外景作品1"></div>
+                    <div class="work-item"><img src="Canon(37).jpg" alt="外景作品2"></div>
+                    <div class="work-item"><img src="Canon(53).jpg" alt="外景作品3"></div>
+                    <div class="work-item"><img src="Canon(14).jpg" alt="外景作品4"></div>
+                </div>
+            </div>
+            <div class="tab-panel" id="tab3" style="display:none">
+                <div class="work-grid">
+                    <div class="work-item"><img src="Canon(21).jpg" alt="棚拍作品1"></div>
+                    <div class="work-item"><img src="Canon(27).jpg" alt="棚拍作品2"></div>
+                    <div class="work-item"><img src="Canon(56).jpg" alt="棚拍作品3"></div>
+                    <div class="work-item"><img src="Canon(4).jpg" alt="棚拍作品4"></div>
+                     <div class="work-item"><img src="Canon(64).jpg" alt="棚拍作品5"></div>
+                     <div class="work-item"><img src="Canon(41).jpg" alt="棚拍作品6"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="price" class="block-card">
+        <h3>拍摄价格</h3>
+        <p>外景：100元｜2‑3小时拍摄，全部底片赠送（一般不会这么高）<br>
+        室内：40元｜3小时棚内拍摄，全部底片赠送（一般不会这么高）<br>
+        ✨ 定制正片：按需求报价，风格、服装、场景可沟通协商<br>
+        注：不含场地费、交通，如需额外精修另计费(本人不怎么会批图)。</p>
+    </div>
+
+    <div id="contact" class="block-card">
+        <h3>联系我们</h3>
+        <p> 微信：zyl1023924（请备注拍摄咨询）<br>
+        ⏰ 回复时间：周五到周六<br>
+        💡 咨询请告知：拍摄风格、人数、意向时间。</p>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="document.getElementById('works').scrollIntoView({behavior:'smooth'})">
+            <div class="nav-icon">🖼️</div>
+            <span>作品</span>
+        </div>
+        <div class="nav-item" onclick="document.getElementById('price').scrollIntoView({behavior:'smooth'})">
+            <div class="nav-icon">💰</div>
+            <span>价格</span>
+        </div>
+        <div class="nav-item" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+            <div class="nav-icon">💬</div>
+            <span>联系</span>
+        </div>
+        <div class="nav-item" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+            <div class="nav-icon">⬆️</div>
+            <span>回顶部</span>
+        </div>
+    </div>
+<script>
+const tabItems = document.querySelectorAll('.tab-item');
+tabItems.forEach(item=>{
+    item.addEventListener('click',()=>{
+        tabItems.forEach(t=>t.classList.remove('active'));
+        item.classList.add('active');
+        const targetId = item.dataset.tab;
+        document.querySelectorAll('.tab-panel').forEach(p=>{
+            p.style.display='none';
+        })
+        document.getElementById(targetId).style.display='block';
+    })
+})
+
+const menuBtn=document.querySelector('.menu-btn');
+const drawer=document.querySelector('.side-drawer');
+const mask=document.querySelector('.drawer-mask');
+function openDrawer(){
+    drawer.classList.add('open');
+    mask.classList.add('open');
+}
+function closeDrawer(){
+    drawer.classList.remove('open');
+    mask.classList.remove('open');
+}
+menuBtn.addEventListener('click',openDrawer);
+mask.addEventListener('click',closeDrawer);
+
+const lightbox=document.querySelector('.image-lightbox');
+const lightImg=document.querySelector('.lightbox-img');
+const closeLight=document.querySelector('.lightbox-close');
+document.querySelectorAll('.work-item').forEach(item=>{
+    item.addEventListener('click',function(){
+        const imgSrc=this.querySelector('img').src;
+        lightImg.src=imgSrc;
+        lightbox.classList.add('open');
+    })
+})
+function closeLightBox(){
+    lightbox.classList.remove('open');
+}
+closeLight.addEventListener('click',closeLightBox);
+lightbox.addEventListener('click',e=>{
+    if(e.target===lightbox) closeLightBox();
+})
+</script>
+</body>
+</html>
